@@ -30,10 +30,28 @@ app.get('*',(req,res)=>{
 
 });
 
+app.post('/api/notes',(req,res)=>{
+    let newNote = req.body;
 
-// app.post('/api/notes',(req,res)=>{
 
-// });
+    //this code actually work reading in the body
+    fs.readFile('./db/db.json','utf-8',(error, data)=>{
+        error ? console.error("Error reading this file:", err) : console.log('success');
+        let output = JSON.parse(data);
+        output.push(newNote);
+
+        fs.writeFile('./db/db.json',JSON.stringify(output),(error)=>{
+            error ? console.error('error updating the data') : console.log("sucess");
+        });
+    });
+    res.json(newNote); //not done, must give it an id
+
+
+
+
+});
+
+
 
 
 
