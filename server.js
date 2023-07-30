@@ -13,12 +13,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 
-
+// SENDS HOMEPAGE TO NOTES PAGE
 app.get('/notes',(req,res)=>{
     res.sendFile(path.join(__dirname, "public" ,'notes.html')); 
 })
 
-
+// API ENDPOINT FOR RENDERING ALL NOTES
 app.get('/api/notes',(req, res)=>{
     fs.readFile('./db/db.json','utf-8',(error, data)=>{
         error ? console.error("Error reading this file:", err) : console.log('success');
@@ -27,18 +27,17 @@ app.get('/api/notes',(req, res)=>{
     });
 });
 
-
+// DEFAULT ENDPOINT FOR HOME PAGE
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname, 'public',"index.html"));
 
 });
 
+
+// SENDING A NEW NOTE TO THE DATABASE
 app.post('/api/notes',(req,res)=>{
     let newNote = req.body;
     newNote.id = uuidv4();
-
-
-    //this code actually work reading in the body
     fs.readFile('./db/db.json','utf-8',(error, data)=>{
         error ? console.error("Error reading this file:", err) : console.log('success');
         let output = JSON.parse(data);
@@ -51,7 +50,7 @@ app.post('/api/notes',(req,res)=>{
     res.json(newNote);
 });
 
-
+// DELETING A NOTE FROM THE DATABASE
 app.delete('/api/notes/:id',(req,res)=>{
     let userId = req.params.id;
     let indexToDelete;
@@ -70,9 +69,6 @@ app.delete('/api/notes/:id',(req,res)=>{
         });
     });
 });
-
-
-
 
 
 
