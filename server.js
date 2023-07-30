@@ -1,12 +1,15 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { v4: uuidv4 } = require('uuid');
+
 
 const app = express();
 
 const PORT = 3000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 
@@ -32,6 +35,7 @@ app.get('*',(req,res)=>{
 
 app.post('/api/notes',(req,res)=>{
     let newNote = req.body;
+    newNote.id = uuidv4();
 
 
     //this code actually work reading in the body
@@ -44,7 +48,7 @@ app.post('/api/notes',(req,res)=>{
             error ? console.error('error updating the data') : console.log("sucess");
         });
     });
-    res.json(newNote); //not done, must give it an id
+    res.json(newNote);
 
 
 
