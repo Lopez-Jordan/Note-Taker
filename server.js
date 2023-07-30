@@ -45,18 +45,31 @@ app.post('/api/notes',(req,res)=>{
         output.push(newNote);
 
         fs.writeFile('./db/db.json',JSON.stringify(output),(error)=>{
-            error ? console.error('error updating the data') : console.log("sucess");
+            error ? console.error('error updating the data') : console.log("success");
         });
     });
     res.json(newNote);
-
-
-
-
 });
 
 
-
+app.delete('/api/notes/:id',(req,res)=>{
+    let userId = req.params.id;
+    let indexToDelete;
+    fs.readFile('./db/db.json','utf-8',(error, data)=>{
+        error ? console.log("error reading file to delete") : console.log('success reading file');
+        var dataArr = JSON.parse(data);
+        for (let i=0;i<dataArr.length;i++){
+            if (dataArr[i].id === userId){
+                indexToDelete = i;
+            }
+        }
+        dataArr.splice(indexToDelete, 1);
+        dataArr = JSON.stringify(dataArr);
+        fs.writeFile('./db/db.json', dataArr ,(error)=>{
+            error ? console.log('error write new file after deletion') : console.log("success writing new file");
+        });
+    });
+});
 
 
 
