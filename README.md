@@ -1,6 +1,8 @@
 
 ![License](https://img.shields.io/badge/license-MIT-brightgreen)
 
+[Visit my deployed application!](https://lopez-jordan.github.io/weather-app/)
+
 # Note Taker App
 
 ## Description
